@@ -11,6 +11,7 @@ def convert_score(score: str):
 
 def process_matches(parse_date: str | None = None):
     db = SessionLocal()
+    print("Start parsing")
     try:
         all_matches = parse_all_competition(parse_date)
         for competition_id, matches in all_matches.items():
@@ -33,5 +34,7 @@ def process_matches(parse_date: str | None = None):
                     create_match(db, game)
                 except Exception as e:
                     print(f"Error when adding a match: {e}")
+        print(all_matches)
+        print("End parsing")
     finally:
         db.close()

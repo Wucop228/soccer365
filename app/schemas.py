@@ -2,6 +2,7 @@ from datetime import date
 from typing import Optional
 
 from pydantic import BaseModel, field_validator, Field
+from fastapi import Depends, Query
 
 class GameRequestOutput(BaseModel):
     competition: Optional[int] = None
@@ -59,3 +60,32 @@ class GameOutput(GameCreate):
 
     class Config:
         from_attributes = True
+
+async def get_game_filters(
+    competition: Optional[int] = Query(None),
+    home_team: Optional[str] = Query(None),
+    away_team: Optional[str] = Query(None),
+    target_team: Optional[str] = Query(None),
+    score_home_min: Optional[int] = Query(None, ge=0),
+    score_home_max: Optional[int] = Query(None, ge=0),
+    score_away_min: Optional[int] = Query(None, ge=0),
+    score_away_max: Optional[int] = Query(None, ge=0),
+    date_start: Optional[date] = Query(None),
+    date_end: Optional[date] = Query(None),
+    skip: int = Query(0, ge=0),
+    limit: int = Query(25, ge=1, le=100)
+) -> GameRequestCreate:
+    return GameRequestCreate(
+        competition=competition,
+        home_team=home_team,
+        away_team=away_team,
+        target_team=target_team,
+        score_home_min=score_home_min,
+        score_home_max=score_home_max,
+        score_away_min=score_away_min,
+        score_away_max=score_away_max,
+        date_start=date_start,
+        date_end=date_end,
+        skip=skip,
+        limit=limit
+    )
