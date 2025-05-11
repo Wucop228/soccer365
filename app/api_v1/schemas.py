@@ -1,8 +1,8 @@
 from datetime import date
 from typing import Optional
 
-from pydantic import BaseModel, field_validator, Field
-from fastapi import Depends, Query
+from pydantic import BaseModel, field_validator, Field, EmailStr, ConfigDict
+from fastapi import Query
 
 class GameRequestOutput(BaseModel):
     competition: Optional[int] = None
@@ -89,3 +89,11 @@ async def get_game_filters(
         skip=skip,
         limit=limit
     )
+
+class UserSchema(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    username: str
+    password: bytes
+    email: EmailStr | None = None
+    active: bool = True

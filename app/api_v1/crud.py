@@ -4,8 +4,8 @@ from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_
 
-from .models import Results
-from .schemas import GameCreate, GameRequestOutput, GameOutput
+from app.core.models.results import Results
+from app.api_v1.schemas import GameCreate, GameRequestOutput, GameOutput
 
 def is_match_exists(db: Session, home_team: str, away_team: str, match_date: date) -> bool:
     existing_match = db.query(Results).filter(

@@ -1,10 +1,10 @@
-from datetime import datetime, date
+from datetime import datetime
 
-from app.site_parser import parse_all_competition
-from app.schemas import GameCreate
-from app.crud import create_match
+from app.parsers.site_parser import parse_all_competition
+from app.api_v1.schemas import GameCreate
+from app.api_v1.crud import create_match
 from app.database import SessionLocal
-import app.competition_loader
+import app.cmp.competition_loader
 
 def convert_score(score: str):
     return map(int, score.split(":"))
@@ -15,7 +15,7 @@ def process_matches(parse_date: str | None = None):
     try:
         all_matches = parse_all_competition(parse_date)
         for competition_id, matches in all_matches.items():
-            if not competition_id in app.competition_loader.competitions["cmp_id"]:
+            if not competition_id in app.cmp.competition_loader.competitions["cmp_id"]:
                 continue
             for match in matches:
                 try:

@@ -1,10 +1,9 @@
 from datetime import date
 
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
+from sqlalchemy.orm import mapped_column, Mapped
 from sqlalchemy import String, Date, Integer, UniqueConstraint
 
-class Base(DeclarativeBase):
-    pass
+from .base import Base
 
 class Results(Base):
     __tablename__ = 'results'
